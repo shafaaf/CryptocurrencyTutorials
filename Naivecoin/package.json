@@ -1,0 +1,25 @@
+{
+  "name": "Naivecoion",
+  "version": "1.0.0",
+  "description": "A sample cryptocurrency",
+  "dependencies": {
+    "@types/node": "^9.4.5",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^4.0.1",
+    "typescript": "^2.7.1",
+    "ws": "^4.0.0"
+  },
+  "scripts": {
+    "start": "node dist/main.js",
+    "test": "node dist/tests.js",
+    "build": "gulp build"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1",
+    "@types/ws": "^4.0.1",
+    "gulp-clean": "^0.4.0",
+    "typescript": "^2.7.1"
+  }
+}
