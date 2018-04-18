@@ -3,6 +3,8 @@ const WebSocket = require('ws');
 const P2P_PORT = process.env.P2P_PORT || 5001;
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
+// TODO: How does old peer know new peer if he did not connect to me?
+// New peer needs updtaed list of peers
 class P2pServer {
     constructor (blockchain) {
         this.blockchain = blockchain;
