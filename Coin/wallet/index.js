@@ -9,9 +9,12 @@ class Wallet {
     }
     toString() { // TODO: toString for public key print
         return ` Wallet -
-            balance  : ${this.balance}
+            balance  : ${this.balance}™
             publickey:
             ${this.publicKey}`
+    }
+    sign(dataHash) {
+        return this.keyPair.sign(dataHash);
     }
 }
 
