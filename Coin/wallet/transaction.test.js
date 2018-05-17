@@ -8,6 +8,7 @@ describe('Transaction', () => {
         wallet = new Wallet();
         amount = 50;
         receipent = 'r3c1p13nt';
+<<<<<<< HEAD
         transaction =
             Transaction.newTransaction (
                 wallet,
@@ -17,6 +18,16 @@ describe('Transaction', () => {
     });
 
     it('Outputs the `amount` subtracted sender wallet balance', () => {
+=======
+        transaction = Transaction.newTransaction (
+                                    wallet,
+                                    receipent,
+                                    amount
+                        );
+    });
+
+    it('Outputs the `amount` subtracted from the wallet balance', () => {
+>>>>>>> 7af157144a6bb30253b27498d4e191fb0fcc883a
         expect(transaction.outputs.find (
             output => output.address === wallet.publicKey).amount)
         .toEqual(wallet.balance - amount);
