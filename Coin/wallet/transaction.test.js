@@ -8,7 +8,6 @@ describe('Transaction', () => {
         wallet = new Wallet();
         amount = 50;
         receipent = 'r3c1p13nt';
-<<<<<<< HEAD
         transaction =
             Transaction.newTransaction (
                 wallet,
@@ -18,16 +17,6 @@ describe('Transaction', () => {
     });
 
     it('Outputs the `amount` subtracted sender wallet balance', () => {
-=======
-        transaction = Transaction.newTransaction (
-                                    wallet,
-                                    receipent,
-                                    amount
-                        );
-    });
-
-    it('Outputs the `amount` subtracted from the wallet balance', () => {
->>>>>>> 7af157144a6bb30253b27498d4e191fb0fcc883a
         expect(transaction.outputs.find (
             output => output.address === wallet.publicKey).amount)
         .toEqual(wallet.balance - amount);
@@ -47,20 +36,47 @@ describe('Transaction', () => {
         transaction.outputs[0].amount = 50000; // Changes hash
         expect(Transaction.verifyTransaction(transaction)).toBe(false);
     });
-});
 
-describe('transacting with an amount that exceeds the balance', () => {
-    beforeEach(() => {
-        wallet = new Wallet();
-        amount = 50000;
-        receipent = 'r3c1p13nt';
-        transaction = Transaction.newTransaction (
-                                    wallet,
-                                    receipent,
-                                    amount
-                        );
-        it('Does not create the transaction', () => {
-            expect(transaction).toEqual(undefined);
+    describe('transacting with an amount that exceeds the balance', () => {
+        beforeEach(() => {
+            wallet = new Wallet();
+            amount = 50000;
+            receipent = 'r3c1p13nt';
+            transaction = Transaction.newTransaction (
+                                        wallet,
+                                        receipent,
+                                        amount
+                            );
+            it('Does not create the transaction', () => {
+                expect(transaction).toEqual(undefined);
+            });
+        });
+    });
+
+    describe('updating a transaction', () => {
+        let nextAmount;
+        let nextReceipent;
+
+        beforeEach(() => {
+            nextAmount = 20;
+            nextReceipent = 'n3xt-4ddr3ss';
+            transaction = transaction.update (
+                wallet,
+                nextReceipent,
+                nextAmount
+            );
+        });
+        it(`subtracts the next amount from the sender's output`, () => {
+            expect(transaction.outputs.find (
+                output => output.address === wallet.publicKey).amount
+            ).toEqual(wallet.balance - amount - nextAmount);
+            // subtract amount as that is first ouput receiver
+        });
+        it(`outputs an amount for the next receipent`, () => {
+            expect(transaction.outputs.find (
+                output => output.address === nextReceipent).amount
+            ).toEqual(nextAmount);
         });
     });
 });
+

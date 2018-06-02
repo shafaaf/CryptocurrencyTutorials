@@ -19,6 +19,28 @@ class Transaction {
         Transaction.signTransaction(transaction, senderWallet); // creates inputs
         return transaction;
     }
+    // TODO: Confused how this supposed to work
+    // Add more transaction outputs to already made transaction
+    update(senderWallet, receipent, amount) {
+        const senderOutput = this.outputs.find (
+            output => output.address === senderWallet.publicKey
+        );
+        // new balance sender will have with old transaction
+        // is: senderOutput.amount
+        if (amount > senderOutput.amount) {
+            console.log(`Amount : ${amount} exceeds balance.`);
+            return;
+        }
+        senderOutput.amount = senderOutput.amount - amount;
+        // Add new receiver for the transaction
+        this.outputs.push({
+            amount,
+            address: receipent
+        });
+        Transaction.signTransaction(this, senderWallet)
+        // this keyword is current transaction instance
+        return this;
+    }
     static signTransaction (transaction, senderWallet) { // signs outputs
         // Why just checking balance? Could be fake? I can set my own balance in wallet object
         transaction.input = {
