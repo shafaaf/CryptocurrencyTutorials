@@ -1,11 +1,17 @@
 const ChainUtil = require('../chainUtil');
 
+// A wallet (user) could have 1 transaction in transaction pool
+// at any point in time. If he wants to add other receipents, he can
+// do so by updating that transaction in the pool
+
 class Transaction {
     constructor() {
         this.id = ChainUtil.id();
         this.input = null;
         this.outputs = [];
     }
+
+    // Creates outputs here
     static newTransaction(senderWallet, receipent, amount) {
         const transaction = new this();
         if (amount > senderWallet.balance) {
@@ -19,8 +25,9 @@ class Transaction {
         Transaction.signTransaction(transaction, senderWallet); // creates inputs
         return transaction;
     }
-    // TODO: Confused how this supposed to work
-    // Add more transaction outputs to already made transaction
+    // Update an already made transaction
+    // 1. Reduce output amount sent back to sender
+    // 2. Add new output for new receiver
     update(senderWallet, receipent, amount) {
         const senderOutput = this.outputs.find (
             output => output.address === senderWallet.publicKey
@@ -41,6 +48,8 @@ class Transaction {
         // this keyword is current transaction instance
         return this;
     }
+
+    // Creates inputs here
     static signTransaction (transaction, senderWallet) { // signs outputs
         // Why just checking balance? Could be fake? I can set my own balance in wallet object
         transaction.input = {
