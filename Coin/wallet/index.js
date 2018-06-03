@@ -19,16 +19,20 @@ class Wallet {
     }
     // Create transaction or update outputs to include new receiver
     // if already in pool
-    createTransaction(recipient, amount, transactionPool) {
+    createTransaction(receipent, amount, transactionPool) {
         if (amount > this.balance) {
-            console.log(`Amount: ${amount}, exceeds current balance: ${this.balance}`);
+            console.log(`Amount ${amount} exceeds current balance: ${this.balance}`);
             return;
         }
-        let transaction = transactionPool.existingTransaction (this.publicKey);
+        let transaction = transactionPool.existingTransaction(this.publickey);
         if (transaction) {
-            transaction.update(this, recipient, amount);
+            transaction.update(this, receipent, amount);
         } else {
-            transaction = Transaction.newTransaction(this, recipient, amount);
+            transaction = Transaction.newTransaction (
+                            this,
+                            receipent,
+                            amount
+                        );
             transactionPool.updateOrAddTransaction(transaction);
         }
         return transaction;
